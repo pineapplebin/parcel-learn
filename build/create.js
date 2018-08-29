@@ -1,18 +1,18 @@
 const path = require('path')
 const fs = require('fs')
 const c = require('colors/safe')
-const { parseArgument } = require('./utils')
+const { parseArgument, copyFile } = require('./utils')
 
 const ROOT = path.dirname(__dirname)
 const SRC = path.resolve(ROOT, 'src')
-const TEMPLATES = path.resolve(ROOT, 'build', 'templates')
+const TEMPLATES = path.resolve(ROOT, 'templates')
 
 async function createPage (page) {
   const page_path = path.resolve(SRC, page)
-  fs.mkdirSync(page_path)
-  const template_content = fs.readFileSync(path.join(TEMPLATES, 'index.html'), { encoding: 'utf8' })
-  fs.writeFileSync(path.join(page_path, 'index.html'), template_content, { encoding: 'utf8' })
-  fs.writeFileSync(path.join(page_path, 'main.js'), '', { encoding: 'utf8' })
+  fs.mkdirSync(page_path);
+
+  ['index.html', 'main.js'].map(filename =>
+    copyFile(path.join(TEMPLATES, filename), path.join(page_path, filename)))
 }
 
 try {

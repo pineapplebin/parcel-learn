@@ -31,8 +31,15 @@ function parseArgument (arg, { command } = {}) {
   }
 }
 
+function copyFile (from, to) {
+  const content = fs.readFileSync(from, { encoding: 'utf8' })
+  fs.writeFileSync(to, content, { encoding: 'utf8' })
+  return content
+}
+
 module.exports = {
   getCurrentPageList,
   validatePageExists,
   parseArgument,
+  copyFile,
 }
