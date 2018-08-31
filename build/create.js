@@ -53,6 +53,11 @@ async function useTemplate (page_name, template_name) {
   copy(template_folder, page_folder)
 }
 
+/**
+ * 递归拷贝指定目录所有内容到目标目录
+ * @param {string} source_folder
+ * @param {string} target_folder
+ */
 function copy (source_folder, target_folder) {
   fs.readdirSync(source_folder).forEach(f => {
     const source = path.join(source_folder, f)
