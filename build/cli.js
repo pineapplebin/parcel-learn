@@ -6,17 +6,22 @@ const { parseArgument } = require('./utils')
 const ROOT = path.dirname(__dirname)
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
+const PRODUCTION_CONFIG = {
+  publicUrl: './',
+  cache: false,
+  watch: false,
+  minify: true,
+}
+
 async function bundle (page) {
   const file = path.resolve(ROOT, 'src', page, '*.html')
-  const options = {
+
+  const options = Object.assign({
     outDir: path.resolve(ROOT, 'dist', page),
-    publicUrl: './',
-    watch: NODE_ENV !== 'production',
-    minify: NODE_ENV === 'production',
+    watch: true,
+    minify: false,
     target: 'browser',
-    cache: false,
-    // https: false,
-  }
+  }, NODE_ENV === 'production' ? PRODUCTION_CONFIG : {})
 
   const bundler = new Bundler(file, options)
 
